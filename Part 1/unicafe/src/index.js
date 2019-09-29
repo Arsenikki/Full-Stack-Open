@@ -31,12 +31,12 @@ const App = () => {
     if (sum() === 0) {
         return (
             <div>
-            <h1>anna palautetta</h1>
+            <h1>give feedback</h1>
             <Button handleClick={handleGoodClick} text='good'/>
             <Button handleClick={handleNeutralClick} text='neutral'/>
             <Button handleClick={handleBadClick} text = 'bad'/>
-            <h1>statistiikka</h1>
-            <p>Ei yhtään palautetta annettu</p>
+            <h1>statistics</h1>
+            <p>No feedback given</p>
             </div> 
         )
     }
@@ -47,12 +47,12 @@ const App = () => {
         <Button handleClick={handleNeutralClick} text='neutral'/>
         <Button handleClick={handleBadClick} text = 'bad'/>
         <h1>statistiikka</h1>
-        <Statistic value = {good} text = 'hyvä'/>
-        <Statistic value = {neutral} text = 'neutraali'/>
-        <Statistic value = {bad} text = 'huono'/>
-        <Statistic value = {sum()} text = 'yhteensä' />
-        <Statistic value = {average()} text = 'keskiarvo'/>
-        <Statistic value = {percentageOfPositive()} text = 'positiivisia' extra = '%' />
+        <Statistic value = {good} text = 'good'/>
+        <Statistic value = {neutral} text = 'neutral'/>
+        <Statistic value = {bad} text = 'bad'/>
+        <Statistic value = {sum()} text = 'all' />
+        <Statistic value = {average()} text = 'average'/>
+        <Statistic value = {percentageOfPositive()} text = 'positive' extra = '%' />
         </div>
     )
 }
