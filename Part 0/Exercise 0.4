@@ -1,0 +1,21 @@
+selain->palvelin: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note
+note over palvelin:
+new note is received
+end note
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/notes
+palvelin-->selain: HTML-code
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.css
+palvelin-->selain: main.css
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.js
+palvelin-->selain: main.js
+
+note over selain:
+Browser requests data.json, which now also has the new note!
+end note
+
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/data.json
+palvelin-->selain: [{ content: "HTML on helppoa", date: "2019-01-01" }, ...]
+
+note over selain:
+Rendering
+end note
