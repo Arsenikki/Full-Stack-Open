@@ -18,15 +18,15 @@ const App = (props) => {
 
     return (
         <div>
-        <h1>Anecdote of the day</h1>
-        <p>
-        <Button handleClick = {changeAnecdote} text = 'Uusi anekdootti' />
-        <Button handleClick = {giveVote} text = 'Äänestä' />
-        </p>
-        <p>{props.anecdotes[selected]}</p>
-        <p>has {votes[selected]} votes</p>
-        <h1>Anecdote with most votes</h1>
-        <MostVotes votes = {votes} anecdotes = {props.anecdotes} />
+            <h1>Anecdote of the day</h1>
+            <p>{props.anecdotes[selected]}</p>
+            <p>has {votes[selected]} votes</p>
+            <p>
+            <Button handleClick = {giveVote} text = 'Vote' />
+            <Button handleClick = {changeAnecdote} text = 'New anecdote' />
+            </p>
+            <h1>Anecdote with most votes</h1>
+            <MostVotes votes = {votes} anecdotes = {props.anecdotes} />
         </div>
     )
 }
