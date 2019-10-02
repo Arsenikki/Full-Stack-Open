@@ -2,28 +2,33 @@ import React, { useState } from 'react'
 
 const App = () => {
   const [ persons, setPersons] = useState([
-    { content: 'Arto Hellas', id: 1 }
+    { name: 'Arto Hellas', number: '1234' , id: 1 }
   ])
   const [ newName, setNewName ] = useState(
     ''
   )
+  const [ newNumber, setNewNumber ] = useState(
+    ''
+  )
 
-  const addName = (event) => {
+  const addPerson = (event) => {
     event.preventDefault()
     let nameIsUnique = CheckForDuplicates(newName)
     if (nameIsUnique) {
       const nameObject = {
-        content: newName,
+        name: newName,
+        number: newNumber,
         id: persons.length + 1,
       }
       setPersons(persons.concat(nameObject))
     }
     setNewName('')
+    setNewNumber('')
   }
 
   const CheckForDuplicates = (newName) => {
     for(var i = 0; i < persons.length; i++) {
-      if (persons[i].content === newName) {
+      if (persons[i].name === newName) {
         window.alert(`${newName} is already added to phonebook`);
         return false;
       }
@@ -36,10 +41,15 @@ const App = () => {
     setNewName(event.target.value)
   }
 
+  const handleNumberChange = (event) => {
+    console.log(event.target.value)
+    setNewNumber(event.target.value)
+  }
+
   const rows = () => persons.map(person =>
     // console.log("pepet:",persons) ||c
     <Person
-      key={person.content}
+      key={person.name}
       person={person}
     />
   )
@@ -47,11 +57,9 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit = {addName}>
-        <input
-          value = {newName}
-          onChange = {handleNameChange}
-        />
+      <form onSubmit = {addPerson}>
+        <div> name: <input value = {newName} onChange = {handleNameChange} /> </div>
+        <div>number: <input value = {newNumber} onChange = {handleNumberChange} /> </div>
         <div>
           <button type = "submit">add</button>
         </div>
@@ -64,7 +72,7 @@ const App = () => {
 
 const Person = ({ person }) => {
   return (
-    <li key = {person.name}>{person.content}</li>
+    <li key = {person.name}> {person.name} {person.number}</li>
   )
 }
 export default App
