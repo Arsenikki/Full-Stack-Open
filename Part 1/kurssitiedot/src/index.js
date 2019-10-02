@@ -4,20 +4,20 @@ import ReactDOM from 'react-dom'
 
 const App = () => {
     const course = {
-        name: 'Half Stack -sovelluskehitys',
+        name: 'Half Stack application development',
         parts: [
             {
-                name: 'Reactin perusteet',
+                name: 'Fundamentals of React',
                 exercises: 10,
                 id: 1
             },
             {
-                name: 'Tiedonvälitys propseilla',
+                name: 'Using props to pass data',
                 exercises: 7,
                 id: 2
             },
             {
-                name: 'Komponenttien tila',
+                name: 'State of a component',
                 exercises: 14,
                 id: 3
             }
@@ -66,7 +66,7 @@ const Content = ({parts}) => {
     </div>
     )
 }
-
+ 
 const Total = ({parts}) => <p>Number of exercises {parts.reduce((exercises, part) => exercises + part.exercises, 0)}</p>
 
 const Part = ({part}) => {
