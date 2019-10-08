@@ -38,6 +38,18 @@ const App = () => {
         setNewNumber('')
     }
 
+    const removePerson = (event) => { // korjaa ja jatka tästä
+        event.preventDefault()
+            personService
+            .create(nameObject)
+            .then(returnedPerson => {
+            setPersons(persons.concat(returnedPerson))
+            })
+        }
+        setNewName('')
+        setNewNumber('')
+    }
+
     const CheckForDuplicates = (newName) => {
         for (var i = 0; i < persons.length; i++) {
             if (persons[i].name === newName) {
@@ -76,6 +88,7 @@ const App = () => {
                 handleNumberChange={handleNumberChange} />
             <h2>Numbers</h2>
             <Persons persons={personsToBeShown} />
+
         </div>
     )
 }
