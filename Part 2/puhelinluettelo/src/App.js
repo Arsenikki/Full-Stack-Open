@@ -11,6 +11,7 @@ const App = () => {
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
     const [newFilter, setNewFilter] = useState('')
+    const [successMessage, setSuccessMessage] = useState(null)
 
     useEffect(() => {
         personService
@@ -39,6 +40,10 @@ const App = () => {
                     .then(returnedPerson => {
                         const UpdatedList = persons.map(person => person.name !== returnedPerson.name ? person : returnedPerson )
                         setPersons(UpdatedList)
+                        setSuccessMessage(`Updated phone number of ${returnedPerson.name}.`)
+                        setTimeout(() => {
+                            setSuccessMessage(null)
+                          }, 2000)
                     })
                 })
             }
@@ -48,6 +53,10 @@ const App = () => {
             .create(nameObject)
             .then(returnedPerson => {
                 setPersons(persons.concat(returnedPerson))
+                setSuccessMessage(`Added ${returnedPerson.name}.`)
+                setTimeout(() => {
+                    setSuccessMessage(null)
+                  }, 2000)
             })
         }
         setNewName('')
@@ -60,6 +69,10 @@ const App = () => {
         .then(() => {
             const newList = persons.filter(person => person.id !== id)
             setPersons(newList)
+            setSuccessMessage("Deleted some person.")
+            setTimeout(() => {
+                setSuccessMessage(null)
+              }, 2000)
         })
     }
 
@@ -89,6 +102,7 @@ const App = () => {
     return (
         <div>
             <h1>Phonebook</h1>
+            <NotifySuccess message={successMessage} />
             filter shown with
             <Filter newFilter={newFilter} handleFilterChange={handleFilterChange} />
             <h2>Add a new</h2>
@@ -103,5 +117,26 @@ const App = () => {
         </div>
     )
 }
+
+const NotifySuccess = ({ message }) => {
+    const successStyle = {
+        color: 'green',
+        background: 'lightgrey',
+        fontSize: 20,
+        borderStyle: 'solid',
+        borderRadius: 5,
+        padding: 10,
+        marginBottom: 10
+      }
+    if (message === null) {
+      return null
+    }
+  
+    return (
+      <div className="success" style={successStyle}>
+        {message}
+      </div>
+    )
+  }
 
 export default App
