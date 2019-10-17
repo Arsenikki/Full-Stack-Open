@@ -22,16 +22,32 @@ const App = () => {
 
     const addPerson = (event) => {
         event.preventDefault()
-        let nameIsUnique = CheckForDuplicates(newName)
-        if (nameIsUnique) {
-            const nameObject = {
-                name: newName,
-                number: newNumber
+        const nameObject = {
+            name: newName,
+            number: newNumber
+        }
+        let nameIsDuplicate = CheckForDuplicates(newName)
+        if (nameIsDuplicate) {
+            let replaceNumberBool = window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`);
+            if (replaceNumberBool) {
+                personService
+                .getAll()
+                .then(allPersons => {
+                    let duplicatePerson = allPersons.filter(person => person.name === newName)
+                    personService
+                    .replace(nameObject, duplicatePerson[0].id)
+                    .then(returnedPerson => {
+                        const UpdatedList = persons.map(person => person.name !== returnedPerson.name ? person : returnedPerson )
+                        setPersons(UpdatedList)
+                    })
+                })
             }
+        }
+        else {
             personService
             .create(nameObject)
             .then(returnedPerson => {
-            setPersons(persons.concat(returnedPerson))
+                setPersons(persons.concat(returnedPerson))
             })
         }
         setNewName('')
@@ -50,11 +66,10 @@ const App = () => {
     const CheckForDuplicates = (newName) => {
         for (var i = 0; i < persons.length; i++) {
             if (persons[i].name === newName) {
-                window.alert(`${newName} is already added to phonebook`);
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     const handleNameChange = (event) => {
