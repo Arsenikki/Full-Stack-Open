@@ -11,7 +11,7 @@ const App = () => {
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
     const [newFilter, setNewFilter] = useState('')
-    const [successMessage, setSuccessMessage] = useState(null)
+    const [notifyMessage, setNotifyMessage] = useState(null)
 
     useEffect(() => {
         personService
@@ -40,11 +40,20 @@ const App = () => {
                     .then(returnedPerson => {
                         const UpdatedList = persons.map(person => person.name !== returnedPerson.name ? person : returnedPerson )
                         setPersons(UpdatedList)
-                        setSuccessMessage(`Updated phone number of ${returnedPerson.name}.`)
+                        setNotifyMessage(`Updated phone number of ${returnedPerson.name}.`)
                         setTimeout(() => {
-                            setSuccessMessage(null)
-                          }, 2000)
+                            setNotifyMessage(null)
+                          }, 3000)
                     })
+                    .catch(error => {
+                        setNotifyMessage(
+                          `ERROR: the person with name ${newName} was already deleted from server`
+                        )
+                        setPersons(persons.filter(person => person.id !== duplicatePerson[0].id))
+                        setTimeout(() => {
+                            setNotifyMessage(null)
+                          }, 5000)
+                      })
                 })
             }
         }
@@ -53,10 +62,10 @@ const App = () => {
             .create(nameObject)
             .then(returnedPerson => {
                 setPersons(persons.concat(returnedPerson))
-                setSuccessMessage(`Added ${returnedPerson.name}.`)
+                setNotifyMessage(`Added ${returnedPerson.name}.`)
                 setTimeout(() => {
-                    setSuccessMessage(null)
-                  }, 2000)
+                    setNotifyMessage(null)
+                  }, 3000)
             })
         }
         setNewName('')
@@ -69,10 +78,10 @@ const App = () => {
         .then(() => {
             const newList = persons.filter(person => person.id !== id)
             setPersons(newList)
-            setSuccessMessage("Deleted some person.")
+            setNotifyMessage("Deleted some person.")
             setTimeout(() => {
-                setSuccessMessage(null)
-              }, 2000)
+                setNotifyMessage(null)
+              }, 3000)
         })
     }
 
@@ -102,7 +111,7 @@ const App = () => {
     return (
         <div>
             <h1>Phonebook</h1>
-            <NotifySuccess message={successMessage} />
+            <NotifySuccess message={notifyMessage}/>
             filter shown with
             <Filter newFilter={newFilter} handleFilterChange={handleFilterChange} />
             <h2>Add a new</h2>
@@ -128,15 +137,34 @@ const NotifySuccess = ({ message }) => {
         padding: 10,
         marginBottom: 10
       }
+    const errorStyle = {
+        color: 'red',
+        background: 'lightgrey',
+        fontSize: 20,
+        borderStyle: 'solid',
+        borderRadius: 5,
+        padding: 10,
+        marginBottom: 10
+      }
+
     if (message === null) {
       return null
     }
-  
-    return (
-      <div className="success" style={successStyle}>
-        {message}
-      </div>
-    )
-  }
+    console.log("messss", message);
+    
+    if (message.includes("ERROR")) {
+        return (
+            <div className="error" style={errorStyle}>
+                {message}
+            </div>
+        )
+    } else {
+        return (
+            <div className="success" style={successStyle}>
+                {message}
+            </div>
+        )
+    }
+}
 
 export default App
