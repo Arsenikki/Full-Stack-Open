@@ -38,16 +38,13 @@ const App = () => {
         setNewNumber('')
     }
 
-    const removePerson = (event) => { // korjaa ja jatka tästä
-        event.preventDefault()
-            personService
-            .create(nameObject)
-            .then(returnedPerson => {
-            setPersons(persons.concat(returnedPerson))
-            })
-        }
-        setNewName('')
-        setNewNumber('')
+    const removePerson = id => {
+        personService
+        .remove(id)
+        .then(() => {
+            const newList = persons.filter(person => person.id !== id)
+            setPersons(newList)
+        })
     }
 
     const CheckForDuplicates = (newName) => {
@@ -78,7 +75,7 @@ const App = () => {
         <div>
             <h1>Phonebook</h1>
             filter shown with
-      <Filter newFilter={newFilter} handleFilterChange={handleFilterChange} />
+            <Filter newFilter={newFilter} handleFilterChange={handleFilterChange} />
             <h2>Add a new</h2>
             <PersonForm
                 onSubmit={addPerson}
@@ -87,8 +84,7 @@ const App = () => {
                 newNumber={newNumber}
                 handleNumberChange={handleNumberChange} />
             <h2>Numbers</h2>
-            <Persons persons={personsToBeShown} />
-
+            <Persons persons={personsToBeShown} removePerson={removePerson} />
         </div>
     )
 }
