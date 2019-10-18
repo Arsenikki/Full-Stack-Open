@@ -150,7 +150,6 @@ const NotifySuccess = ({ message }) => {
     if (message === null) {
       return null
     }
-    console.log("messss", message);
     
     if (message.includes("ERROR")) {
         return (
