@@ -1,15 +1,10 @@
 import axios from 'axios'
 
-const baseUrl = 'http://localhost:3001/api/persons'
+const baseUrl = 'https://tursan-puhelinluettelo.herokuapp.com/api/persons'
 
 const getAll = () => {
     const request = axios.get(baseUrl)
-    const nonExisting = {
-        name: 'changeMyNumberForError',
-        number: '1234',
-        id: 55
-      }
-    return request.then(response => response.data.concat(nonExisting))
+    return request.then(response => response.data)
 }
 
 const create = newObject => {
