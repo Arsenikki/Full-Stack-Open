@@ -20,10 +20,14 @@ app.get('/api/persons', (req, res) => {
 })
 
 app.get('/info', (req, res) => {
-    res.write(`Phonebook has info for ${persons.length} people \n`)
-    var date = Date(Date.now()); 
-    res.write(`${date}`);
-    res.end()
+    let personCount = 0
+    Person.find({}).then((p) => {
+        personCount = p.length
+        res.write(`Phonebook has info for ${personCount} people \n`)
+        var date = Date(Date.now()); 
+        res.write(`${date}`);
+        res.end()
+    })
 })
 
 app.get('/api/persons/:id', (request, response, next) => {
