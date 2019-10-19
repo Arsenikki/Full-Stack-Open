@@ -13,13 +13,6 @@ app.use(express.static('build'))
 app.use(bodyParser.json())
 app.use(morgan('tiny'))
 
-const generateId = () => {
-    const maxId = persons.length > 0
-        ? Math.max(...persons.map(person => person.id))
-        : 0
-    return maxId + 1
-}
-
 app.get('/api/persons', (req, res) => {
     Person.find({}).then(people => {
         res.json(people.map(person => person.toJSON()))
@@ -54,18 +47,18 @@ app.post('/api/persons', (request, response) => {
         return response.status(400).json({ 
             error: 'number missing' 
         })  
-    } else if (persons.find(p => p.name === body.name)) {
-        return response.status(400).json({ 
-            error: 'Name must be unique!' 
-        })  
+    // } else if (persons.find(p => p.name === body.name)) {
+    //     return response.status(400).json({ 
+    //         error: 'Name must be unique!' 
+    //     })  
     } else {
-        const person = {
-            name: body.name,
-            number: body.number,
-            id: generateId()
-        }
-        persons = persons.concat(person)
-        response.json(person)
+        const person = new Person({
+                name: body.name,
+                number: body.number
+        }) 
+        person.save().then(savedPerson => {
+            response.json(savedPerson.toJSON())
+        })
     }
 })
 
