@@ -32,41 +32,50 @@ const App = () => {
             let replaceNumberBool = window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`);
             if (replaceNumberBool) {
                 personService
-                .getAll()
-                .then(allPersons => {
-                    let duplicatePerson = allPersons.filter(person => person.name === newName)
-                    personService
-                    .replace(nameObject, duplicatePerson[0].id)
-                    .then(returnedPerson => {
-                        const UpdatedList = persons.map(person => person.name !== returnedPerson.name ? person : returnedPerson )
-                        setPersons(UpdatedList)
-                        setNotifyMessage(`Updated phone number of ${returnedPerson.name}.`)
-                        setTimeout(() => {
-                            setNotifyMessage(null)
-                          }, 3000)
+                    .getAll()
+                    .then(allPersons => {
+                        let duplicatePerson = allPersons.filter(person => person.name === newName)
+                        personService
+                            .replace(nameObject, duplicatePerson[0].id)
+                            .then(returnedPerson => {
+                                const UpdatedList = persons.map(person => person.name !== returnedPerson.name ? person : returnedPerson)
+                                setPersons(UpdatedList)
+                                setNotifyMessage(`Updated phone number of ${returnedPerson.name}.`)
+                                setTimeout(() => {
+                                    setNotifyMessage(null)
+                                }, 3000)
+                            })
+                            .catch(error => {
+                                console.log(error)
+                                setNotifyMessage(
+                                    `ERROR: the person with name ${newName} was already deleted from server`
+                                )
+                                setPersons(persons.filter(person => person.id !== duplicatePerson[0].id))
+                                setTimeout(() => {
+                                    setNotifyMessage(null)
+                                }, 5000)
+                            })
                     })
-                    .catch(error => {
-                        setNotifyMessage(
-                          `ERROR: the person with name ${newName} was already deleted from server`
-                        )
-                        setPersons(persons.filter(person => person.id !== duplicatePerson[0].id))
-                        setTimeout(() => {
-                            setNotifyMessage(null)
-                          }, 5000)
-                      })
-                })
             }
         }
         else {
-            personService
-            .create(nameObject)
-            .then(returnedPerson => {
-                setPersons(persons.concat(returnedPerson))
-                setNotifyMessage(`Added ${returnedPerson.name}.`)
-                setTimeout(() => {
-                    setNotifyMessage(null)
-                  }, 3000)
-            })
+            if (!!newName && !!newNumber) {
+                personService
+                    .create(nameObject)
+                    .then(returnedPerson => {
+                        setPersons(persons.concat(returnedPerson))
+                        setNotifyMessage(`Added ${returnedPerson.name}.`)
+                        setTimeout(() => {
+                            setNotifyMessage(null)
+                        }, 3000)
+                    })
+            } else {
+                setNotifyMessage(`Please provide both name and number.`)
+                        setTimeout(() => {
+                            setNotifyMessage(null)
+                        }, 3000)
+            }
+
         }
         setNewName('')
         setNewNumber('')
@@ -74,15 +83,15 @@ const App = () => {
 
     const removePerson = id => {
         personService
-        .remove(id)
-        .then(() => {
-            const newList = persons.filter(person => person.id !== id)
-            setPersons(newList)
-            setNotifyMessage("Deleted some person.")
-            setTimeout(() => {
-                setNotifyMessage(null)
-              }, 3000)
-        })
+            .remove(id)
+            .then(() => {
+                const newList = persons.filter(person => person.id !== id)
+                setPersons(newList)
+                setNotifyMessage("Deleted some person.")
+                setTimeout(() => {
+                    setNotifyMessage(null)
+                }, 3000)
+            })
     }
 
     const CheckForDuplicates = (newName) => {
@@ -111,7 +120,7 @@ const App = () => {
     return (
         <div>
             <h1>Phonebook</h1>
-            <NotifySuccess message={notifyMessage}/>
+            <NotifySuccess message={notifyMessage} />
             filter shown with
             <Filter newFilter={newFilter} handleFilterChange={handleFilterChange} />
             <h2>Add a new</h2>
@@ -136,7 +145,7 @@ const NotifySuccess = ({ message }) => {
         borderRadius: 5,
         padding: 10,
         marginBottom: 10
-      }
+    }
     const errorStyle = {
         color: 'red',
         background: 'lightgrey',
@@ -145,12 +154,12 @@ const NotifySuccess = ({ message }) => {
         borderRadius: 5,
         padding: 10,
         marginBottom: 10
-      }
+    }
 
     if (message === null) {
-      return null
+        return null
     }
-    
+
     if (message.includes("ERROR")) {
         return (
             <div className="error" style={errorStyle}>
