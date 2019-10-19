@@ -50,7 +50,7 @@ app.get('/api/persons', (req, res) => {
 
 app.get('/info', (req, res) => {
     res.write(`Phonebook has info for ${persons.length} people \n`)
-    let date = new Date(Date.UTC(2010, 01, 28))
+    var date = Date(Date.now()); 
     res.write(`${date}`);
     res.end()
 })
