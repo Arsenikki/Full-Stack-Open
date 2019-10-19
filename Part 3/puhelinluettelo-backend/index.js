@@ -1,41 +1,17 @@
+require('dotenv').config()
+
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 var morgan = require('morgan')
 const cors = require('cors')
 
+const Person = require('./models/person')
+
 app.use(cors())
 app.use(express.static('build'))
 app.use(bodyParser.json())
 app.use(morgan('tiny'))
-
-let persons = [
-    {
-        name: "Tupu",
-        number: "123456",
-        id: 1
-    },
-    {
-        name: "Hupu",
-        number: "045-505050020",
-        id: 2
-    },
-    {
-        name: "Lupu",
-        number: "044-1313513",
-        id: 3
-    },
-    {
-        name: "Aku",
-        number: "044-13443513",
-        id: 4
-    },
-    {
-        name: "Iines",
-        number: "044-43545",
-        id: 5
-    },
-]
 
 const generateId = () => {
     const maxId = persons.length > 0
@@ -45,7 +21,9 @@ const generateId = () => {
 }
 
 app.get('/api/persons', (req, res) => {
-    res.json(persons)
+    Person.find({}).then(people => {
+        res.json(people.map(person => person.toJSON()))
+    })
 })
 
 app.get('/info', (req, res) => {
@@ -97,7 +75,7 @@ app.delete('/api/persons/:id', (request, response) => {
     response.status(204).end()
 })
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
