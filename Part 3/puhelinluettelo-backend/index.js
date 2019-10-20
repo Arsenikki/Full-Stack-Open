@@ -59,9 +59,12 @@ app.post('/api/persons', ({ body }, response) => {
     name: body.name,
     number: body.number
   });
-  person.save().then(savedPerson => {
-    response.json(savedPerson.toJSON());
-  });
+  person
+    .save()
+    .then(savedPerson => {
+      response.json(savedPerson.toJSON());
+    })
+    .catch(error => next(error));
 });
 
 app.put('/api/persons/:id', (request, response, next) => {
