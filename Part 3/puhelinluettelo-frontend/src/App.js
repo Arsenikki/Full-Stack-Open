@@ -28,7 +28,7 @@ const App = () => {
             number: newNumber
         }
         let nameIsDuplicate = CheckForDuplicates(newName)
-        if (nameIsDuplicate) {
+        if (nameIsDuplicate && !!newNumber) {
             let replaceNumberBool = window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`);
             if (replaceNumberBool) {
                 personService
