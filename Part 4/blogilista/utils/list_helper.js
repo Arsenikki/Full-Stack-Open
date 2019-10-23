@@ -1,3 +1,5 @@
+const lodash = require("lodash");
+
 const dummy = blogs => {
   return 1;
 };
@@ -20,8 +22,18 @@ const favouriteBlog = blogs => {
       currentLikes = blog.likes;
     }
   });
-  return bestBlog;
+  return bestBlog.title;
 };
+
+// const bestAuthor = blogs => {
+//   let bestBlog;
+//   let currentBlogLikes = 0
+//   let bestBlogLikes = 0
+//   lodash.maxby(blogs, blog => blog.
+//
+//   }
+// };
+// )
 
 module.exports = {
   dummy,

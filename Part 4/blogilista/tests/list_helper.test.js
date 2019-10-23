@@ -86,6 +86,10 @@ describe("total likes", () => {
 
   test("when list has many blogs the favourite blog is found", () => {
     const result = listHelper.favouriteBlog(blogs);
-    expect(result).toBe("Canonical string reduction");
+    expect(result).toEqual("Canonical string reduction");
+  });
+
+  test("when list has many blogs best author found", () => {
+    const result = listHelper.toEqual("Edsger W. Dijkstra");
   });
 });
