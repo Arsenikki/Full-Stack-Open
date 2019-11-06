@@ -67,6 +67,15 @@ describe("blog controller", () => {
       id: expect.any(String)
     });
   });
+
+  it("should delete one blog", async () => {
+    noteToDelete = initialBlogs[0];
+    let response = await api
+      .delete(`/api/blogs/${noteToDelete.id}`)
+      .expect(204);
+
+    console.log(response.body);
+  });
 });
 
 afterAll(() => {
