@@ -9,7 +9,6 @@ const totalLikes = blogs => {
   blogs.forEach(blog => {
     sum += blog.likes;
   });
-  console.log(sum);
   return sum;
 };
 
