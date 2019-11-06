@@ -37,9 +37,33 @@ const mostBlogs = blogs => {
   };
 };
 
+const mostLikes = blogs => {
+  let authorWithMostLikes;
+  let mostLikeCount = 0;
+
+  console.log(blogs);
+
+  var objii = _.countBy(blogs, "author");
+  authors = _.keys(objii);
+
+  authors.map(author => {
+    let totalLikesOfAuthor = _.sumBy(_.filter(blogs, { author }), "likes");
+    if (totalLikesOfAuthor > mostLikeCount) {
+      mostLikeCount = totalLikesOfAuthor;
+      authorWithMostLikes = author;
+    }
+  });
+
+  return {
+    author: authorWithMostLikes,
+    likes: mostLikeCount
+  };
+};
+
 module.exports = {
   dummy,
   totalLikes,
   favouriteBlog,
-  mostBlogs
+  mostBlogs,
+  mostLikes
 };

@@ -91,8 +91,14 @@ describe("total likes", () => {
 
   test("when list has many blogs best author found", () => {
     const result = listHelper.mostBlogs(blogs);
-    console.log(result);
     expect(result).toMatchObject({ author: "Robert C. Martin" });
     expect(result).toMatchObject({ blogs: 3 });
+  });
+
+  test("when list has many blogs blog with most likes is found", () => {
+    const result = listHelper.mostLikes(blogs);
+    console.log(result);
+    expect(result).toMatchObject({ author: "Edsger W. Dijkstra" });
+    expect(result).toMatchObject({ likes: 17 });
   });
 });
