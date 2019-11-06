@@ -44,19 +44,20 @@ describe("blog controller", () => {
     expect(response.body.map(blog => blog.id)).toBeDefined();
   });
 
-  it("should add a valid person", async () => {
-    let newPerson = {
+  it.only("should add a valid blog post", async () => {
+    let newBlogPost = {
       title: "Jallu123",
       author: "Jallu",
       url: "jaba.blogspot.com",
       likes: 1,
-      id: "5dacc89607a7b44778f9cfb8"
+      id: "5dacc89607a7b44778f9cfb8",
+      userId: "5dc328b0461033406c9deb36"
     };
 
     let response = await api
       .post("/api/blogs")
-      .send(newPerson)
-      .expect(201)
+      .send(newBlogPost)
+      .expect(200)
       .expect("Content-Type", /application\/json/);
 
     expect(response.body).toMatchObject({
@@ -64,7 +65,8 @@ describe("blog controller", () => {
       author: expect.any(String),
       url: expect.any(String),
       likes: expect.any(Number),
-      id: expect.any(String)
+      id: expect.any(String),
+      user: expect.any(String)
     });
   });
 

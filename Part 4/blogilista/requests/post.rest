@@ -2,8 +2,9 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title": "Bloggeristi",
-    "author": "Mirva Maatula",
-    "url": "mirri.blogspot.com",
-    "likes": 1 
+    "title": "isfjijfsigjsfigjsf",
+    "author": "jallasd Maatula",
+    "url": "marks.blogspot.com",
+    "likes": 1,
+    "userId": "5dc328b0461033406c9deb36"
 }
