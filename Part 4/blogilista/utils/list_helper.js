@@ -41,8 +41,6 @@ const mostLikes = blogs => {
   let authorWithMostLikes;
   let mostLikeCount = 0;
 
-  console.log(blogs);
-
   var objii = _.countBy(blogs, "author");
   authors = _.keys(objii);
 

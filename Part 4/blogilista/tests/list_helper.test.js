@@ -97,7 +97,6 @@ describe("total likes", () => {
 
   test("when list has many blogs blog with most likes is found", () => {
     const result = listHelper.mostLikes(blogs);
-    console.log(result);
     expect(result).toMatchObject({ author: "Edsger W. Dijkstra" });
     expect(result).toMatchObject({ likes: 17 });
   });
